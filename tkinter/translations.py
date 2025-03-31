@@ -1,0 +1,32 @@
+translations = {
+    "fr": {
+        "title": "Prédiction de la congestion routière",
+        "start": "DÉMARRER",
+        "language": "Langue",
+        "preprocessing": "PRÉTRAITEMENT",
+        "training": "ENTRAÎNEMENT",
+        "visualization": "VISUALISATION DES DONNÉES",
+        "select_file": "Sélectionner le fichier :",
+        "drag_drop": "Glisser déposer les fichiers ici",
+        "browse": "Parcourir",
+        "back": "RETOUR",
+        "simulate": "SIMULER",
+        "algo_1": "Algo 1",
+        "algo_2": "Algo 2",
+    },
+    "en": {
+        "title": "Traffic Congestion Prediction",
+        "start": "START",
+        "language": "Language",
+        "preprocessing": "PREPROCESSING",
+        "training": "TRAINING",
+        "visualization": "DATA VISUALIZATION",
+        "select_file": "Select the file:",
+        "drag_drop": "Drag and drop files here",
+        "browse": "Browse",
+        "back": "BACK",
+        "simulate": "SIMULATE",
+        "algo_1": "Algo 1",
+        "algo_2": "Algo 2",
+    }
+}

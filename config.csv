@@ -1,0 +1,6 @@
+Algorithm,Field,Value
+Encoder decoder model,encoder_lstm_cells,
+Encoder decoder model,decoder_lstm_cells,
+Encoder decoder model,epochs,
+Encoder decoder model,batch_size,
+Encoder decoder model,validation_split,
