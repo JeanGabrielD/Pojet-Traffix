@@ -10,6 +10,7 @@ from cleandatasets import *
 
 selected_algorithm = ""
 name_file = ""
+selected_files = []
 
 class Page1:
     def __init__(self, root, language):
@@ -286,23 +287,26 @@ class Page1:
         drop_frame.dnd_bind('<<Drop>>', self.on_file_drop)
     
     def on_label_click(self, event):
-        # Ajouter un filtre pour ouvrir uniquement les fichiers gpx et csv
-        file_path = filedialog.askopenfilename(
-            title="Select File",
+        file_paths = filedialog.askopenfilenames(
+            title="Select Files",
             filetypes=[
                 (self.translations[self.language]["csv_file"], "*.csv"),
                 (self.translations[self.language]["gpx_file"], "*.gpx")
             ]
         )
-        
-        if file_path:
-            self.drop_label.configure(text=file_path)
+
+        if file_paths:
+            global selected_files
+            selected_files = list(file_paths)  # Stocker les fichiers sélectionnés
+            print(selected_files)
+            self.drop_label.configure(text="; ".join(os.path.basename(fp) for fp in file_paths))   
 
     # Fonction qui s'execute quand on sauvegarde le fichier
     def on_file_drop(self, event):
         print(f"Fichier déposé : {event.data}")
         files = event.widget.tk.splitlist(event.data)
         if files:
+            print(files)
             first_file = files[0]
             file_name = os.path.basename(first_file)
             print(f"Fichier déposé : {file_name}")
@@ -335,12 +339,13 @@ class Page1:
             global selected_algorithm, name_file
             name_file = os.path.basename(self.drop_label.cget("text"))
             selected_algorithm = self.algo_dropdown.get()
+            global selected_files
             if selected_algorithm == "CSV":
                 print(selected_algorithm)
-                csv_chosen()
+                csv_chosen(selected_files)
             else:
                 print(selected_algorithm)
-                gpx_chosen()
+                gpx_chosen(selected_files)
             self.clear_window()
             Page2(self.root, language=self.language)
 

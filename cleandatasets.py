@@ -40,10 +40,10 @@ def clean_gpx(files):
 gpx_files = [GPX_FILES_PATH+entry.name for entry in os.scandir(GPX_FILES_PATH) if entry.is_file()]
 csv_files = [CSV_FILES_PATH+entry.name for entry in os.scandir(CSV_FILES_PATH) if entry.is_file()]
 
-def csv_chosen():
-    clean_csv(csv_files)
+def csv_chosen(selected_files):
+    clean_csv(selected_files)
     
-def gpx_chosen():
-    clean_gpx(gpx_files)
+def gpx_chosen(selected_files):
+    clean_gpx(selected_files)
 
 #clean_gpx(["datasets/test/"+entry.name for entry in os.scandir("datasets/test/") if entry.is_file()])
