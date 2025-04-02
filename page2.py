@@ -13,6 +13,13 @@ encoder = "" #
 all_rows = [] # Pour sauvegarder les lignes
 chosen = []
 algo_chosen = ""
+rows = []
+
+def clear_csv():
+    with open("data.csv", "w", newline="") as file:
+        writer = csv.writer(file)
+        for row in rows:
+            writer.writerow("")
 
 class Page2:
     def __init__(self, root, language):
@@ -92,6 +99,7 @@ class Page2:
         self.create_sidebar()
         self.create_widgets()
 
+    
 
     # Barre latérale (Menu de navigation)
     def create_sidebar(self):
@@ -170,7 +178,7 @@ class Page2:
             label.pack(side="left", padx=10, pady=5, expand=True)
         
           
-        self.rows = []
+        #global rows
 
          # Vérifier si le fichier CSV existe et contient des données
         file_path = "data.csv"
@@ -206,7 +214,7 @@ class Page2:
                     label = ctk.CTkLabel(header_frame, text=col, font=("Arial", 14, "bold"), text_color="black")
                     label.pack(side="left", padx=10, pady=5, expand=True)
 
-                self.rows = []
+                global rows
             
             self.list_frame = ctk.CTkFrame(main_frame, fg_color="white", height=250)
             self.list_frame.pack(fill="x", padx=20, pady=5)
@@ -226,7 +234,7 @@ class Page2:
                                             command=lambda rf=row_frame, rd=row_data: delete_row(rf, rd))
                 delete_button.pack(side="left", padx=5)
 
-                self.rows.append({"frame": row_frame, "data": row_data})
+                rows.append({"frame": row_frame, "data": row_data})
 
         else:
             # Afficher un message si le fichier est vide
@@ -234,14 +242,19 @@ class Page2:
      
 
         def save_to_csv():
+            global rows
             with open("data.csv", "w", newline="") as file:
                 writer = csv.writer(file)
                 writer.writerow(columns[:-1])
-                for row in self.rows:
+                for row in rows:
                     values = [child.cget("text") for child in row["frame"].winfo_children()[:-1]]
                     writer.writerow(values)
+                    
 
+        
+            
         def add_row():
+            global rows
             if self.empty_label:
                 self.empty_label.pack_forget()
             self.list_frame.pack(fill="x", padx=20, pady=5)
@@ -275,7 +288,7 @@ class Page2:
             delete_button = ctk.CTkButton(action_frame, text="Delete", fg_color="#D9534F", width=50, command=lambda: delete_row(row_frame, row_data))
             delete_button.pack(side="left", padx=5)
             
-            self.rows.append({"frame": row_frame, "data": row_data})
+            rows.append({"frame": row_frame, "data": row_data})
           
             
             save_to_csv()
@@ -284,8 +297,9 @@ class Page2:
             print("Edit button clicked for:", values)
         
         def delete_row(row_frame, row_data):
+            global rows
             row_frame.destroy()
-            self.rows = [row for row in self.rows if row["data"] != row_data]  
+            rows = [row for row in rows if row["data"] != row_data]  
             
             save_to_csv()
         
@@ -483,15 +497,18 @@ class Page2:
     def simuler_bouton(self):
         global chosen
         global algo_chosen
+        global rows
         print(chosen)
         print(algo_chosen)
+        print(rows)
         if algo_chosen == "Encoder decoder model":
             main(1, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
         elif algo_chosen == "Simple LSTM model":
             main(1, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
         from loading import Loading
         global all_rows
-        all_rows = [row["data"] for row in self.rows]
+        all_rows = [row["data"] for row in rows]
+        rows.clear()
         self.clear_window()
         Loading(self.root, language=self.language)
         
