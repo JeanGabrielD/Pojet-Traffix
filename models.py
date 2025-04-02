@@ -200,7 +200,7 @@ def prediction(model, testX=None, testY=None):
         testPredict = model.predict([testX_pad, testY_pad])
     return testPredict
 
-def calculate_rmse(model, trainX, trainY, testY, testPredict):
+def calculate_rmse(model, history, trainX, trainY, testY, testPredict):
     # For Sequential models or single-input models
     if isinstance(model, Sequential) or not isinstance(model.input, list):
         trainPredict = model.predict(trainX)
@@ -238,8 +238,8 @@ def calculate_rmse(model, trainX, trainY, testY, testPredict):
     testPredict_flat = testPredict_flat[:min_len]
 
     # Calculate RMSE
-    trainScore = np.sqrt(mean_squared_error(trainY_flat, trainPredict_flat))
-    print('Train Score: %.2f RMSE' % (trainScore))
+    trainScore = history.history['loss'][-1]
+    print('Train Score: %.5f MSE' % (trainScore))
 
     testScore = np.sqrt(mean_squared_error(testY_flat, testPredict_flat))
     print('Test Score: %.2f RMSE' % (testScore))
@@ -348,14 +348,10 @@ def main(model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, valida
     trainX, trainY, _, _, train_ids, _= preprocessing('datasets/outputs/cleaned_gpx.csv',seq_length=10)
     _, _, testX, testY, _, test_ids = preprocessing('datasets/test/cleaned_csv_test.csv',seq_length=10, ratio_train=0)
     if model == 1:
-        model, history = encoder_decoder_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
-    elif model == 2:
         model, history = simple_lstm_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
-    elif model == 3:
-        model, history = encoder_decoder_bidirectional_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
     plotting_courbe_apprentissage(history)
     testPredict = prediction(model, testX, testY)
-    trainScore, testScore = calculate_rmse(model, trainX, trainY, testY, testPredict)
+    trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
     plotting(testY,testPredict, max_points=100)
 
     plot_sequences(testY, testPredict, test_ids=test_ids)
