@@ -31,9 +31,7 @@ class Page2:
 
             "Simple LSTM model": ["lstm_layers", "lstm_cells", "epochs", "batch_size", "validation_split"],
             
-            "pouet": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "batch_size", "validation_split"],
-            
-            "pouet pouet": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "batch_size", "validation_split"]
+            "Encoder decoder bidirectional model": ["lstm_layers", "lstm_cells", "epochs", "batch_size", "validation_split"]
         }
          # Dictionnaire de traductions
         self.translations = {
@@ -58,11 +56,13 @@ class Page2:
                 ],
                 "columns": {
                     "Encoder decoder model": ["Nb neurones encodeur", "Nb neurones décodeur", "Nb epochs", "Batch size", "Learning rate"],
-                    "Simple LSTM model": ["Nb CONV1D neurones encodeur", "Nb LSTM neurones encodeur", "Nb CONV1D neurones décodeur", "Nb LSTM neurones décodeur", "Nb epochs", "Batch size", "Learning rate"]
+                    "Simple LSTM model": ["Nb CONV1D neurones encodeur", "Nb LSTM neurones encodeur", "Nb CONV1D neurones décodeur", "Nb LSTM neurones décodeur", "Nb epochs", "Batch size", "Learning rate"],
+                    "Encoder decoder bidirectional model": ["Nb neurones encodeur", "Nb neurones décodeur", "Nb epochs", "Batch size", "Learning rate"],
                 },
                 "infos": {
                     "Encoder decoder model": ["a faire, par defaut =64", "a faire, par defaut =64", "a faire, par defaut =50", "a faire, par defaut =64", "a faire, par defaut =0.1"],
-                    "Simple LSTM model": ["a faire, par defaut =1", "a faire, par defaut =64", "a faire, par deafut =50", "a faire, par deafaut =64", "a faire, par defaut =0.1"]
+                    "Simple LSTM model": ["a faire, par defaut =1", "a faire, par defaut =64", "a faire, par deafut =50", "a faire, par deafaut =64", "a faire, par defaut =0.1"],
+                    "Encoder decoder bidirectional model": ["a faire, par defaut =64", "a faire, par defaut =64", "a faire, par defaut =50", "a faire, par defaut =64", "a faire, par defaut =0.1"],
                 }
             },
             "en": {
@@ -86,11 +86,13 @@ class Page2:
                 ],
                 "columns": {
                     "Encoder decoder model": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "Batch size", "validation_split"],
-                    "Simple LSTM model": ["Nb CONV1D encoder neurons", "Nb LSTM encoder neurons", "Nb CONV1D decoder neurons", "Nb LSTM decoder neurons", "Nb epochs", "Batch size", "Learning rate"]
+                    "Simple LSTM model": ["Nb CONV1D encoder neurons", "Nb LSTM encoder neurons", "Nb CONV1D decoder neurons", "Nb LSTM decoder neurons", "Nb epochs", "Batch size", "Learning rate"],
+                    "Encoder decoder bidirectional model": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "Batch size", "validation_split"],
                 },
                 "infos": {
                     "Encoder decoder model": ["a faire, default =64", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
-                    "Simple LSTM model": ["a faire, default =1", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"]
+                    "Simple LSTM model": ["a faire, default =1", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
+                    "Encoder decoder bidirectional model": ["a faire, default =64", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
                 }
             }
         }
