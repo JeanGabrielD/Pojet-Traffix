@@ -347,8 +347,12 @@ def plot_sequences(testY, testPredict, test_ids=None, seq_length=None, num_seque
 def main(model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, validation_split=0.1):
     trainX, trainY, _, _, train_ids, _= preprocessing('datasets/outputs/cleaned_gpx.csv',seq_length=10)
     _, _, testX, testY, _, test_ids = preprocessing('datasets/test/cleaned_csv_test.csv',seq_length=10, ratio_train=0)
-    if model == 1:
+        if model == 1:
+        model, history = encoder_decoder_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
+    elif model == 2:
         model, history = simple_lstm_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
+    elif model == 3:
+        model, history = encoder_decoder_bidirectional_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
     plotting_courbe_apprentissage(history)
     testPredict = prediction(model, testX, testY)
     trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
