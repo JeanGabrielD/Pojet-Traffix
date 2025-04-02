@@ -86,8 +86,11 @@ class Page3:
         self.graph_frame.pack(pady=10, padx=10, anchor="center")
         
         # Ajouter le graphique
-        self.create_plot()
-        
+        #self.create_plot()
+        image = ctk.CTkImage(light_image=Image.open("images/courbe_apprentissage.png"), size=(200, 200))
+        label_logo = ctk.CTkLabel(self.graph_frame, image=image, text="")
+        label_logo.pack(pady=(10, 20))
+
         # Types de graphes
         types_label = ctk.CTkLabel(main_frame, text="Types de graphes :", font=("Arial", 16, "bold"), text_color="black")
         types_label.pack(anchor="w", padx=20)
@@ -114,6 +117,10 @@ class Page3:
         button_back.pack(pady=10, padx=20, anchor="e")
     
     def create_plot(self):
+        image = ctk.CTkImage(light_image=Image.open("image/courbe_apprentissage.png"), size=(200, 200))
+        label_logo = ctk.CTkLabel(self, image=image, text="")
+        label_logo.pack(pady=(10, 20))
+        '''
         self.fig, self.axs = plt.subplots(2, 1, figsize=(6, 4))
         x = np.linspace(0, 100, 100)
         y1_true = np.sin(x / 10) + 0.2
@@ -132,6 +139,8 @@ class Page3:
         self.canvas = FigureCanvasTkAgg(self.fig, master=self.graph_frame)
         self.canvas.draw()
         self.canvas.get_tk_widget().pack()
+        '''
+        
     
     def afficher_graphe(self):
         print("Afficher le graphe")
