@@ -144,7 +144,7 @@ class Page2:
         algo_frame.pack(fill="x", padx=20, pady=20)
         algo_label = ctk.CTkLabel(algo_frame, text=self.translations[self.language]["choose_algo"], font=("Arial", 16, "bold"), text_color="black")
         algo_label.pack(pady=5, side="left")
-        self.algo_dropdown = ctk.CTkComboBox(algo_frame, values=["Encoder decoder model", "Simple LSTM model"], width=175)
+        self.algo_dropdown = ctk.CTkComboBox(algo_frame, values=["Encoder decoder model", "Simple LSTM model", "Encoder decoder bidirectional model"], width=230)
         self.algo_dropdown.pack(padx=(10,0), pady=5, side="left")
         
         selection_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["select_args"], font=("Arial", 16, "bold"), text_color="black")
