@@ -87,9 +87,9 @@ class Page3:
         
         # Ajouter le graphique
         #self.create_plot()
-        image = ctk.CTkImage(light_image=Image.open("images/courbe_apprentissage.png"), size=(200, 200))
+        image = ctk.CTkImage(light_image=Image.open("images/courbe_apprentissage.png"), size=(400, 200))
         label_logo = ctk.CTkLabel(self.graph_frame, image=image, text="")
-        label_logo.pack(pady=(10, 20))
+        label_logo.pack(pady=(1, 2))
 
         # Types de graphes
         types_label = ctk.CTkLabel(main_frame, text="Types de graphes :", font=("Arial", 16, "bold"), text_color="black")
