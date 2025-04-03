@@ -1,5 +1,6 @@
 # imports
 
+import os
 import numpy as np
 import matplotlib.pyplot as plt
 import pandas as pd
@@ -249,7 +250,7 @@ def calculate_rmse(model, history, trainX, trainY, testY, testPredict):
 # %%
 # plotting
 
-def plotting(testY, testPredict, max_points=100):
+def plotting(testY, testPredict, n, max_points=100):
     # Flatten the data to 2D
     testY_flat = testY.reshape(-1, testY.shape[-1])
     testPredict_flat = testPredict.reshape(-1, testPredict.shape[-1])
@@ -275,7 +276,8 @@ def plotting(testY, testPredict, max_points=100):
     axs[1].plot(testY_flat[1:max_points, 1], label='True Longitude', alpha=0.8)
     axs[1].plot(testPredict_flat[:max_points, 1], label='Predicted Longitude', alpha=0.8)
     axs[1].legend()
-    fig.savefig("images/predict_plot")  # save figure into image
+    os.makedirs(f"images/{n}/", exist_ok=True) 
+    fig.savefig(f"images/{n}/predict_plot")  # save figure into image
     plt.show()
 
 
@@ -291,7 +293,7 @@ def saveCSV(testY, testPredict):
 
 
 # courbe d'apprentissage
-def plotting_courbe_apprentissage(history):
+def plotting_courbe_apprentissage(history, n):
         plt.figure(figsize=(10, 5))
         
         # Courbe de loss
@@ -303,11 +305,12 @@ def plotting_courbe_apprentissage(history):
         plt.title('Training Progress')
         plt.legend()
         plt.grid()
-        plt.savefig("images/courbe_apprentissage")  # save figure into image
+        os.makedirs(f"images/{n}/", exist_ok=True) 
+        plt.savefig(f"images/{n}/courbe_apprentissage")  # save figure into image
 
         plt.show()
 
-def plot_sequences(testY, testPredict, test_ids=None, seq_length=None, num_sequences=5):
+def plot_sequences(testY, testPredict, n, test_ids=None, seq_length=None, num_sequences=5):
     # Inverse transform to original scale
     testY_inverse = scaler.inverse_transform(testY.reshape(-1, 2)).reshape(testY.shape)
     testPredict_inverse = scaler.inverse_transform(testPredict.reshape(-1, 2)).reshape(testPredict.shape)
@@ -337,14 +340,15 @@ def plot_sequences(testY, testPredict, test_ids=None, seq_length=None, num_seque
         plt.ylabel('Longitude (Degrees)')
         plt.legend()
         plt.grid(True)
-        plt.savefig(f"images/sequence_{i}.png")
+        os.makedirs(f"images/{n}/", exist_ok=True) 
+        plt.savefig(f"images/{n}/sequence_{i}.png")
         plt.tight_layout()
         plt.show()
 
 # %%
 # main
 
-def main(model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, validation_split=0.1):
+def main(n, model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, validation_split=0.1):
     trainX, trainY, _, _, train_ids, _= preprocessing('datasets/outputs/cleaned_gpx.csv',seq_length=10)
     _, _, testX, testY, _, test_ids = preprocessing('datasets/test/cleaned_csv_test.csv',seq_length=10, ratio_train=0)
     if model == 1:
@@ -353,9 +357,9 @@ def main(model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, valida
         model, history = simple_lstm_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
     elif model == 3:
         model, history = encoder_decoder_bidirectional_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
-    plotting_courbe_apprentissage(history)
+    plotting_courbe_apprentissage(history, n)
     testPredict = prediction(model, testX, testY)
     trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
-    plotting(testY,testPredict, max_points=100)
+    plotting(testY,testPredict, n, max_points=100)
 
-    plot_sequences(testY, testPredict, test_ids=test_ids)
+    plot_sequences(testY, testPredict, n, test_ids=test_ids)

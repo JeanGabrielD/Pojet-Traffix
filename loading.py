@@ -1,3 +1,4 @@
+from threading import Thread
 import os
 import customtkinter as ctk
 import tkinter as tk
@@ -50,6 +51,8 @@ class Loading:
                 ]
             }
         }
+        t = Thread(target=self.train_configurations())
+        t.run
         self.create_sidebar()
         self.root = root
         self.root.title("Loading Page")
@@ -72,7 +75,6 @@ class Loading:
         button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"] , width=100, fg_color="#1C3A6B", command=self.retour)
         button_back.pack(pady=10, anchor="e")
         
-        self.train_configurations()
 
     # Barre latérale (Menu de navigation)
     def create_sidebar(self):
@@ -142,11 +144,11 @@ class Loading:
                     chosen_algo = rows[i][0]
                     chosen_parameters = rows[i][1:6]
                     if chosen_algo == "Encoder decoder model":
-                        main(1,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
+                        main(i, 1,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
                     elif chosen_algo == "Simple LSTM model":
-                        main(2,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
+                        main(i, 2,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
                     elif chosen_algo == "Encoder decoder bidirectional model":
-                        main(3,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
+                        main(i, 3,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
                     print((chosen_algo, chosen_parameters))
     
     def afficher_graphe(self):
