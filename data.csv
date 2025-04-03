@@ -1,2 +1,2 @@
 Model,Encoder Layer/Cells,Cells,Epochs,Batch Size,Validation Split
-Simple LSTM model,lstm_layers : 16,lstm_cells : 64,epochs : 30,batch_size : 64,validation_split : 0.1
+Simple LSTM model,lstm_layers : 64,lstm_cells : 64,epochs : 30,batch_size : 64,validation_split : 0.1
