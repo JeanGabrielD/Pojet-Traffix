@@ -364,6 +364,7 @@ def main(n, model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, val
     testPredict = prediction(model, testX, testY)
 
     trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
+    
     df = pd.read_csv('configuration.csv')
     df.loc[n-1, "MSE"] = trainScore
     df.loc[n-1, "RMSE"] = testScore

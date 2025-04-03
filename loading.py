@@ -161,6 +161,7 @@ class Loading:
                     elif chosen_algo == "Encoder decoder bidirectional model":
                         main(i, 3,int(float(chosen_parameters[0])),int(float(chosen_parameters[1])),int(float(chosen_parameters[2])),int(float(chosen_parameters[3])), float(chosen_parameters[4]))
                     print((chosen_algo, chosen_parameters))
+                    self.open_page3()
     
     def afficher_graphe(self):
         print("Afficher le graphe")

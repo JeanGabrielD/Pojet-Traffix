@@ -119,8 +119,10 @@ class Page4:
                 read = csv.reader(config)
                 chosen_graph = list(read)[0][0]
                 print(chosen_graph)
+
                 if (chosen_graph == "graphe avec tous les points" or chosen_graph == "all points graph"):
                     for i in range(1, rows):
+
                         image = ctk.CTkImage(light_image=Image.open(f"images/{i}/predict_plot.png"), size=(400, 200))
                         label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
                         label_logo.pack(pady=(10, 20))

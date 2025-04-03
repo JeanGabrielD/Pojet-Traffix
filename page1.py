@@ -337,6 +337,7 @@ class Page1:
             if file_path == self.translations[self.language]["drop_file"] or not file_path:
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
+
                     self.translations[self.language]["Please select a GPX or CSV file before proceeding"],
                 )
                 return
@@ -345,6 +346,7 @@ class Page1:
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
                     self.translations[self.language]["The selected file must be in GPX or CSV format"],
+
                 )
                 return
 
@@ -357,9 +359,11 @@ class Page1:
             if not selected_columns:
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
+
                     self.translations[self.language]["You must select at least one column to continue"]
                 )
                 return
+
 
             name_file = os.path.basename(file_path)
             selected_algorithm = self.algo_dropdown.get()
@@ -372,6 +376,15 @@ class Page1:
                 gpx_chosen(selected_files)
             self.clear_window()
             Page2(self.root, language=self.language)
+            
+    def open_main_window(self):
+        from main_window import MainWindow
+        self.clear_window()
+        MainWindow(self.root)
+
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy() 
 
             def open_main_window(self):
                 from main_window import MainWindow
