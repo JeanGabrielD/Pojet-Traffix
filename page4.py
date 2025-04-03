@@ -105,52 +105,36 @@ class Page4:
         self.create_plot()
         
         # Bouton retour
-        button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.retour)
-        button_back.pack(pady=10, padx=20, anchor="e")
+        ctk.CTkButton(main_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.open_page3).place(relx=0.9, rely=0.95, anchor="center")
+
         
         # Configuration du scroll avec la molette de la souris
         self.canvas.bind_all("<MouseWheel>", lambda event: self.canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
     def create_plot(self):
         with open('configuration.csv', 'r') as file:
-            reader = csv.reader(file)
+            rows = len(list(csv.reader(file)))
+            print(rows)
             with open('chosen.csv', 'r') as config:
                 read = csv.reader(config)
                 chosen_graph = list(read)[0][0]
-                if (chosen_graph == "graphe par trajectoire"):
-                    for i in range(1, len(list(reader))):
+                print(chosen_graph)
+                if (chosen_graph == "graphe avec tous les points" or chosen_graph == "all points graph"):
+                    for i in range(1, rows):
                         image = ctk.CTkImage(light_image=Image.open(f"images/{i}/predict_plot.png"), size=(400, 200))
                         label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
                         label_logo.pack(pady=(10, 20))
-                elif (chosen_graph == "graphe avec tous les points"):
-                    for i in range(1, len(list(reader))):
+                elif (chosen_graph == "graphe par trajectoire" or chosen_graph == "trajectory graph"):
+                    for i in range(1, rows):
                         for n in range (5):
                             image = ctk.CTkImage(light_image=Image.open(f"images/{i}/sequence_{n}.png"), size=(400, 200))
                             label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
                             label_logo.pack(pady=(10, 20))
         
-        '''
-        fig, ax = plt.subplots(figsize=(8, 5))
-        x = np.arange(200)
-        y_actual = np.cumsum(np.random.randn(200)) + 500000
-        y_predicted = y_actual + np.random.normal(0, 50000, size=200)
-        
-        ax.plot(x, y_actual, label="actual", color='blue', linestyle='-', marker='o', markersize=2)
-        ax.plot(x, y_predicted, label="prediction", color='red', linestyle='-')
-        ax.set_xlabel("Time step", fontsize=14)
-        ax.set_ylabel("Global_active_power", fontsize=14)
-        ax.legend()
-        ax.set_title(self.translations[self.language]["visualization_data"], fontsize=14, fontweight='bold')
-        
-        canvas = FigureCanvasTkAgg(fig, master=self.graph_frame)
-        canvas.draw()
-        canvas.get_tk_widget().pack()
-        '''
-    
-    
     
     def afficher_graphe(self):
         print("Afficher le graphe")
+        #self.create_plot()
     
     #def telecharger_csv(self):
     #   print("Télécharger le fichier CSV")

@@ -36,7 +36,7 @@ class Page2:
          # Dictionnaire de traductions
         self.translations = {
             "fr": {
-                "dataset_size": "Taille du dataset (Entre 0 et 1) :",
+                "dataset_size": "Taille du dataset d'entrainement (0~1) :",
                 "select_sequence": "Taille des séquences :",
                 "variable_size": "Taille variable :",
                 "fixed_size": "Taille fixe :",
@@ -66,7 +66,7 @@ class Page2:
                 }
             },
             "en": {
-                "dataset_size": "Training dataset (Between 0 and 1):",
+                "dataset_size": "Training dataset size (0~1):",
                 "select_sequence": "Sequences length:",
                 "variable_size": "Variable size:",
                 "fixed_size": "Fixed size:",
