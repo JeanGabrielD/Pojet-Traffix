@@ -151,6 +151,19 @@ class Page3:
     
     def afficher_graphe_csv(self):
         print("Afficher le graphe et télécharger le CSV")
+        # Ouvre le gestionnaire de fichier pour choisir où sauvegarder le fichier CSV
+        file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")])
+        
+        if file_path:
+            # Sauvegarde les données dans un fichier CSV
+            with open(file_path, mode='w', newline='', encoding='utf-8') as file:
+                writer = csv.writer(file)
+                # Ajoute un en-tête des pour les colonnes
+                writer.writerow(["Colonne 1", "Colonne 2", "Colonne 3"])
+                # Écrit les données 
+                for row in self.val:
+                    writer.writerow(row)
+            print(f"Fichier CSV sauvegardé sous {file_path}")
     
     def retour(self):
         print("Retour à la page précédente")

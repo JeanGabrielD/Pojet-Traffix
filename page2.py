@@ -60,13 +60,13 @@ class Page2:
                     "Encoder decoder bidirectional model": ["Nb neurones encodeur", "Nb neurones décodeur", "Nb epochs", "Batch size", "Learning rate"],
                 },
                 "infos": {
-                    "Encoder decoder model": ["a faire, par defaut =64", "a faire, par defaut =64", "a faire, par defaut =50", "a faire, par defaut =64", "a faire, par defaut =0.1"],
-                    "Simple LSTM model": ["a faire, par defaut =1", "a faire, par defaut =64", "a faire, par deafut =50", "a faire, par deafaut =64", "a faire, par defaut =0.1"],
-                    "Encoder decoder bidirectional model": ["a faire, par defaut =64", "a faire, par defaut =64", "a faire, par defaut =50", "a faire, par defaut =64", "a faire, par defaut =0.1"],
+                    "Encoder decoder model": ["nombre de cellules LSTM de l'encodeur", "nombre de cellules LSTM de decodeur", "nombre de passage sur le dataset", "taille du dataset par couche", "taux d'apprentissage"],
+                    "Simple LSTM model": ["Nombre de couches LSTM","Nombre de cellule LSTM par couche","nombre de passage sur le dataset", "taille du dataset par couche", "taux d'apprentissage"],
+                    "Encoder decoder bidirectional model":["nombre de cellules lstm de l'encodeur", "nombre de cellules lstm de decodeur", "nombre de passage sur le dataset", "taille du dataset par couche", "taux d'apprentissage"],
                 }
             },
             "en": {
-                "dataset_size": "Dataset size (0 to 1):",
+                "dataset_size": "Training dataset (Between 0 and 1):",
                 "select_sequence": "Sequences length:",
                 "variable_size": "Variable size:",
                 "fixed_size": "Fixed size:",
@@ -86,13 +86,13 @@ class Page2:
                 ],
                 "columns": {
                     "Encoder decoder model": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "Batch size", "validation_split"],
-                    "Simple LSTM model": ["Nb CONV1D encoder neurons", "Nb LSTM encoder neurons", "Nb CONV1D decoder neurons", "Nb LSTM decoder neurons", "Nb epochs", "Batch size", "Learning rate"],
+                    "Simple LSTM model":["lstm_layers","lstm_cells","epochs", "Batch size" , "validation_split" ],
                     "Encoder decoder bidirectional model": ["encoder_lstm_cells", "decoder_lstm_cells", "epochs", "Batch size", "validation_split"],
                 },
                 "infos": {
-                    "Encoder decoder model": ["a faire, default =64", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
-                    "Simple LSTM model": ["a faire, default =1", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
-                    "Encoder decoder bidirectional model": ["a faire, default =64", "a faire, default =64", "a faire, default =50", "a faire, default =64", "a faire, default =0.1"],
+                    "Encoder decoder model": ["Number of LSTM cells in the encoder", "Number of LSTM cells in the decoder", "Number of passes through the dataset", "Dataset size per layer", "Learning rate"],
+                    "Simple LSTM model": ["Number of LSTM layers","Number of LSTM cells per layer","Number of passes through the dataset", "Dataset size per layer", "Learning rate"],
+                    "Encoder decoder bidirectional model": ["Number of LSTM cells in the encoder", "Number of LSTM cells in the decoder", "Number of passes through the dataset", "Dataset size per layer", "Learning rate"],
                 }
             }
         }
@@ -126,8 +126,18 @@ class Page2:
 
     def create_widgets(self):            
         # FRAME PRINCIPAL
-        main_frame = ctk.CTkFrame(self.root, fg_color="white")
-        main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        #main_frame = ctk.CTkFrame(self.root, fg_color="white")
+        #main_frame.pack(fill="both", expand=True, padx=20, pady=20)
+        main_container = ctk.CTkFrame(self.root, fg_color="white")
+        main_container.pack(fill="both", expand=True)
+
+         # Liste déroulante pour choisir l'algorithme
+         # MAIN SCROLLABLE FRAME
+        main_frame = ctk.CTkScrollableFrame(main_container, fg_color="white")
+        main_frame.pack(fill="both", expand=True, padx=20, pady=(20, 0))
+
+        button_frame = ctk.CTkFrame(main_container, fg_color="white", height=60)  # Hauteur réduite
+        button_frame.pack(side="bottom", fill="x", padx=20, pady=(0, 10))
         # Titre
         title_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["training"], font=("Arial", 28, "bold"), text_color="#ff5733")
         title_label.pack(padx=20, pady=20, anchor="center")
@@ -412,12 +422,16 @@ class Page2:
 
 
         # Bouton simuler
-        button_next = ctk.CTkButton(main_frame, text=self.translations[self.language]["simulate"], width=100, fg_color="#1C3A6B",command=self.simuler_bouton)
-        button_next.place(relx=0.9, rely=0.95, anchor="center")
+        #button_next = ctk.CTkButton(main_frame, text=self.translations[self.language]["simulate"], width=100, fg_color="#1C3A6B",command=self.simuler_bouton)
+        #button_next.place(relx=0.9, rely=0.95, anchor="center")
+        button_next = ctk.CTkButton(button_frame, text=self.translations[self.language]["simulate"], width=100, fg_color="#1C3A6B",command=self.simuler_bouton)
+        button_next.place(relx=0.9, rely=0.70, anchor="center")
         
         # Bouton retour
-        button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.open_page1)
-        button_back.place(relx=0.75, rely=0.95, anchor="center")
+        button_back = ctk.CTkButton(button_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.open_page1)
+        button_back.place(relx=0.75, rely=0.70, anchor="center")
+        #button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.open_page1)
+        #button_back.place(relx=0.75, rely=0.95, anchor="center")
     
 
     def toggle_variable_size(self):
