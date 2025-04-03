@@ -536,13 +536,14 @@ class Page2:
         print(chosen)
         print(algo_chosen)
         print(rows)
-        self.init_csv()
+        '''
         if algo_chosen == "Encoder decoder model":
             main(1, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
         elif algo_chosen == "Simple LSTM model":
             main(2, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
         elif algo_chosen == "Encoder decoder bidirectional model":
             main(3, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
+        '''
         from loading import Loading
         global all_rows
         all_rows = [row["data"] for row in rows]

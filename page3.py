@@ -1,3 +1,4 @@
+import os
 import customtkinter as ctk
 import tkinter as tk
 from tkinter import filedialog
@@ -141,9 +142,19 @@ class Page3:
         self.canvas.draw()
         self.canvas.get_tk_widget().pack()
         '''
-        
-    
     def afficher_graphe(self):
+        file_path = "configuration.csv"
+        if os.path.exists(file_path): 
+            with open(file_path, "r", newline="") as file:
+                #reader = csv.reader(file)
+                rows = list(csv.reader(file))
+                #nb_rows = sum(1 for line in file)
+                for i in range (1, len(rows)):
+                    chosen_algo = rows[i][0]
+                    chosen_parameters = rows[i][1:6]
+                    print((chosen_algo, chosen_parameters))
+                #data = list(reader)
+                #has_data = len(data) > 1  # Vérifier s'il y a des lignes après l'en-tête
         self.open_page4()
         print("Afficher le graphe")
     
