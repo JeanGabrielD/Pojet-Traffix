@@ -20,6 +20,7 @@ def clear_csv():
         writer = csv.writer(file)
         for row in rows:
             writer.writerow("")
+            
 
 class Page2:
     def __init__(self, root, language):
