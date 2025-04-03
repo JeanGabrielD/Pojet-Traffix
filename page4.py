@@ -69,12 +69,36 @@ class Page4:
             button.pack(pady=15, padx=10)
 
     def create_widgets(self):            
-        # FRAME PRINCIPAL
+        # FRAME PRINCIPAL AVEC SCROLL
         main_frame = ctk.CTkFrame(self.root, fg_color="white")
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
+        self.canvas = tk.Canvas(main_frame, bg="white", highlightthickness=0)
+        scrollbar = ctk.CTkScrollbar(main_frame, orientation="vertical", command=self.canvas.yview)
+        scrollable_frame = ctk.CTkFrame(self.canvas, fg_color="white")
+        
+        scrollable_frame.bind(
+            "<Configure>",
+            lambda e: self.canvas.configure(
+                scrollregion=self.canvas.bbox("all")
+            )
+        )
+        
+        self.canvas.create_window((0, 0), window=scrollable_frame, anchor="nw")
+        self.canvas.configure(yscrollcommand=scrollbar.set)
+        
+        self.canvas.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        
+        # Titre principal
+        title_label = ctk.CTkLabel(scrollable_frame, 
+                                 text=self.translations[self.language]["visualization_data"], 
+                                 font=("Arial", 28, "bold"), 
+                                 text_color="#ff5733")
+        title_label.pack(padx=20, pady=20, anchor="center")
+        
         # FRAME DES GRAPHIQUES
-        self.graph_frame = ctk.CTkFrame(main_frame, fg_color="white")
+        self.graph_frame = ctk.CTkFrame(scrollable_frame, fg_color="white")
         self.graph_frame.pack(pady=10, padx=10, anchor="center")
         
         # Ajouter le graphique
@@ -83,6 +107,9 @@ class Page4:
         # Bouton retour
         button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"], width=100, fg_color="#1C3A6B", command=self.retour)
         button_back.pack(pady=10, padx=20, anchor="e")
+        
+        # Configuration du scroll avec la molette de la souris
+        self.canvas.bind_all("<MouseWheel>", lambda event: self.canvas.yview_scroll(int(-1*(event.delta/120)), "units"))
 
     def create_plot(self):
         with open('configuration.csv', 'r') as file:

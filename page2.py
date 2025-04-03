@@ -488,7 +488,7 @@ class Page2:
         with open("configuration.csv", mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             # Ajoute un en-tête des pour les colonnes en fonction du modèle
-            writer.writerow(["Modele choisi", "Layers", "Cells", "Epochs", "Batch size", "Validation split"])
+            writer.writerow(["Modele choisi", "Layers", "Cells", "Epochs", "Batch size", "Validation split", "MSE", "RMSE"])
             # Écrit les données 
         print("Fichier CSV créé sous configuration.csv")
     
@@ -497,7 +497,7 @@ class Page2:
         with open("configuration.csv", mode='a', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             # Écrit les données 
-            writer.writerow((self.algo_dropdown.get(), chosen[0], chosen[1], chosen[2], chosen[3], chosen[4]))
+            writer.writerow((self.algo_dropdown.get(), chosen[0], chosen[1], chosen[2], chosen[3], chosen[4], 0, 0))
         print("Fichier CSV modifié sous configuration.csv")
 
     def open_main_window(self):
