@@ -480,6 +480,18 @@ class Page2:
             )
         
         return entry
+    
+    def init_csv(self):
+        with open("configuration.csv", mode='w', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
+            # Ajoute un en-tête des pour les colonnes en fonction du modèle
+            if self.algo_dropdown == "Encoder decoder model":
+                writer.writerow(["Modele choisi", "Encoder cells", "Decoder cells", "Epochs", "Batch size", "Validation split"])
+            else:
+                writer.writerow(["Modele choisi", "Layers", "Cells", "Epochs", "Batch size", "Validation split"])
+            # Écrit les données 
+            writer.writerow((self.algo_dropdown.get(), chosen[0], chosen[1], chosen[2], chosen[3], chosen[4]))
+        print("Fichier CSV sauvegardé sous configuration.csv")
 
     def open_main_window(self):
         from main_window import MainWindow
@@ -517,6 +529,7 @@ class Page2:
         print(chosen)
         print(algo_chosen)
         print(rows)
+        self.init_csv()
         if algo_chosen == "Encoder decoder model":
             main(1, int(chosen[0]), int(chosen[1]), int(chosen[2]), int(chosen[3]), chosen[4])
         elif algo_chosen == "Simple LSTM model":

@@ -1,0 +1,2 @@
+Modele choisi,Layers,Cells,Epochs,Batch size,Validation split
+Simple LSTM model,5.0,5.0,5.0,5.0,0.1
