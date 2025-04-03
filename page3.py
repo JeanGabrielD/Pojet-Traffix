@@ -119,7 +119,7 @@ class Page3:
         #button_back.pack(pady=10, padx=20, anchor="e")
     
     def create_plot(self):
-        image = ctk.CTkImage(light_image=Image.open("image/courbe_apprentissage.png"), size=(200, 200))
+        image = ctk.CTkImage(light_image=Image.open("image/1/courbe_apprentissage.png"), size=(200, 200))
         label_logo = ctk.CTkLabel(self, image=image, text="")
         label_logo.pack(pady=(10, 20))
         '''

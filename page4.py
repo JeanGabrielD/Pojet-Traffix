@@ -85,6 +85,14 @@ class Page4:
         button_back.pack(pady=10, padx=20, anchor="e")
 
     def create_plot(self):
+        with open('configuration.csv', 'r') as file:
+            reader = csv.reader(file)
+            for i in range(1, len(list(reader))):
+                image = ctk.CTkImage(light_image=Image.open(f"images/{i}/courbe_apprentissage.png"), size=(400, 200))
+                label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
+                label_logo.pack(pady=(10, 20))
+        
+        '''
         fig, ax = plt.subplots(figsize=(8, 5))
         x = np.arange(200)
         y_actual = np.cumsum(np.random.randn(200)) + 500000
@@ -100,7 +108,7 @@ class Page4:
         canvas = FigureCanvasTkAgg(fig, master=self.graph_frame)
         canvas.draw()
         canvas.get_tk_widget().pack()
-    
+        '''
     
     
     
