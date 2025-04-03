@@ -39,6 +39,9 @@ class Page1:
                 "back": "Retour",
                 "csv_file": "Fichiers CSV",
                 "gpx_file": "Fichiers GPX",
+                "You must select at least one column to continue" : "Veuillez sélectionner au moins une colonne avant de continuer",
+                "The selected file must be in GPX or CSV format" : "Le fichier sélectionné doit être au format GPX ou CSV",
+                "Please select a GPX or CSV file before proceeding" :"Veuillez sélectionner un fichier GPX ou CSV avant de continuer",
                 "error_title": "Traffix - Erreur",
                 "invalid_file_type": "Type de fichier incorrect, veuillez choisir un fichier .gpx ou .csv",
                 "menu": [
@@ -78,6 +81,9 @@ class Page1:
                 "next": "next",
                 "csv_file": "CSV Files",
                 "gpx_file": "GPX Files",
+                "The selected file must be in GPX or CSV format" : "The selected file must be in GPX or CSV format",
+                "You must select at least one column to continue": "You must select at least one column to continue",
+                "Please select a GPX or CSV file before proceeding": "Please select a GPX or CSV file before proceeding",
                 "error_title": "Traffix - Error",
                 "invalid_file_type": "Wrong file type, please select a .gpx or .csv file",
                 "menu": [
@@ -211,19 +217,7 @@ class Page1:
             info_icon.bind("<Enter>", lambda e, text=self.translations[self.language]["infos"].get(selected_algo, [])[i]: self.show_tooltip(e, text))
             info_icon.bind("<Leave>", self.hide_tooltip)
         
-      
-        """ size_label = ctk.CTkLabel(self.checkbox_frame, text=self.translations[self.language]["select_sequence"], font=("Arial", 12, "bold"), text_color="black")
-        size_label.grid(row=len(columns)//2, column=0, columnspan=2, pady=(10, 5), padx=10, sticky="w")
-
-        self.variable_size_checkbox = ctk.CTkCheckBox(self.checkbox_frame, text="Taille variable", text_color="black", command=self.toggle_variable_size)
-        self.variable_size_checkbox.grid(row=len(columns)//2 + 1, column=0, pady=7, padx=10, sticky="w")
-
-        self.fixed_size_checkbox = ctk.CTkCheckBox(self.checkbox_frame, text="Taille fixe", text_color="black", command=self.toggle_fixed_size)
-        self.fixed_size_checkbox.grid(row=len(columns)//2 + 1, column=1, pady=7, padx=10, sticky="w")
-
-        self.variable_size_entry = ctk.CTkEntry(self.checkbox_frame)
-        self.variable_size_entry.grid(row=len(columns)//2 + 2, column=0, pady=7, padx=10, sticky="w")
-        self.variable_size_entry.grid_remove() """
+    
 
     def toggle_variable_size(self):
         if self.variable_size_checkbox.get():
@@ -337,21 +331,22 @@ class Page1:
         from page2 import Page2
         if not isinstance(self, Page2):
             global selected_algorithm, name_file
-            # Vérifier si un fichier a été sélectionné
             file_path = self.drop_label.cget("text")
             file_ext = os.path.splitext(file_path)[1].lower()
 
             if file_path == self.translations[self.language]["drop_file"] or not file_path:
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
-                    "Veuillez sélectionner un fichier GPX ou CSV avant de continuer."
+
+                    self.translations[self.language]["Please select a GPX or CSV file before proceeding"],
                 )
                 return
-            
+
             if file_ext not in ('.gpx', '.csv'):
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
-                    "Le fichier sélectionné doit être au format GPX ou CSV."
+                    self.translations[self.language]["The selected file must be in GPX or CSV format"],
+
                 )
                 return
 
@@ -364,11 +359,12 @@ class Page1:
             if not selected_columns:
                 messagebox.showerror(
                     self.translations[self.language]["error_title"],
-                    "Veuillez sélectionner au moins une colonne avant de continuer."
+
+                    self.translations[self.language]["You must select at least one column to continue"]
                 )
                 return
-                      
-            # Enregistrer les choix
+
+
             name_file = os.path.basename(file_path)
             selected_algorithm = self.algo_dropdown.get()
             global selected_files
@@ -389,6 +385,15 @@ class Page1:
     def clear_window(self):
         for widget in self.root.winfo_children():
             widget.destroy() 
+
+            def open_main_window(self):
+                from main_window import MainWindow
+                self.clear_window()
+                MainWindow(self.root)
+
+            def clear_window(self):
+                for widget in self.root.winfo_children():
+                    widget.destroy()
 
     def open_page3(self):
         from page3 import Page3

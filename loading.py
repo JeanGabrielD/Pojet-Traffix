@@ -14,8 +14,11 @@ import numpy as np
 import itertools
 from models import main
 
+
 class Loading:
     def __init__(self, root, language):
+        self.t = Thread(target=self.train_configurations)
+        self.t.start()
         global selected_algorithm
         self.root = root
         self.language = language
@@ -30,6 +33,7 @@ class Loading:
                 "visualization_data": "VISUALISATION DES DONNEES",
                 "simulate": "Simuler",
                 "back": "Retour",
+                "training": "Entraînement en cours...",
                 "menu": [
                     ("PRÉTRAITEMENT", self.open_page1, "edit.png"),
                     ("ENTRAÎNEMENT", self.open_page2, "params.png"),
@@ -42,6 +46,7 @@ class Loading:
                 "visualization_data": "VISUALIZATION DATA",
                 "simulate": "Simulate",
                 "back": "Back",
+                "training": "Training in progress...",
                 "menu": [
                     ("PREPROCESSING", self.open_page1, "edit.png"),
                     ("TRAINING", self.open_page2, "params.png"),
@@ -62,16 +67,21 @@ class Loading:
         title_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["result"], font=("Arial", 20, "bold"), text_color="black")
         title_label.pack(pady=10)
 
+        # Texte "Entraînement en cours..."
+        training_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["training"],
+                                      font=("Arial", 16, "italic"), text_color="red")
+        training_label.pack(pady=10)
+
         self.canvas = tk.Canvas(main_frame, width=300, height=300, bg="white", highlightthickness=0)
         self.canvas.pack(pady=50)
         
-        self.arc = self.canvas.create_arc(30, 30, 270, 270, start=0, extent=30, outline="blue", width=5, style=tk.ARC)
+        self.arc = self.canvas.create_arc(30, 30, 220, 220, start=0, extent=30, outline="blue", width=5, style=tk.ARC)
         self.angle = itertools.cycle(range(0, 360, 10))
         self.animate()
         
         # Bouton retour
-        button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"] , width=100, fg_color="#1C3A6B", command=self.retour)
-        button_back.pack(pady=10, anchor="e")
+        #button_back = ctk.CTkButton(main_frame, text=self.translations[self.language]["back"] , width=100, fg_color="#1C3A6B", command=self.retour)
+        #button_back.pack(pady=10, anchor="e")
         
 
     # Barre latérale (Menu de navigation)
@@ -112,10 +122,8 @@ class Loading:
         button_back.pack(pady=10)
 
     def animate(self):
-        t = Thread(target=self.train_configurations())
-        t.run()
         self.canvas.itemconfig(self.arc, start=next(self.angle))
-        if t.is_alive():
+        if self.t.is_alive():
             self.root.after(50, self.animate)
         else:
             self.open_page3()

@@ -279,7 +279,7 @@ def plotting(testY, testPredict, n, max_points=100):
     axs[1].legend()
     os.makedirs(f"images/{n}/", exist_ok=True) 
     fig.savefig(f"images/{n}/predict_plot")  # save figure into image
-    plt.show()
+    #plt.show()
 
 
 # %%
@@ -309,7 +309,7 @@ def plotting_courbe_apprentissage(history, n):
         os.makedirs(f"images/{n}/", exist_ok=True) 
         plt.savefig(f"images/{n}/courbe_apprentissage")  # save figure into image
 
-        plt.show()
+        #plt.show()
 
 def plot_sequences(testY, testPredict, n, test_ids=None, seq_length=None, num_sequences=5):
     # Inverse transform to original scale
@@ -344,12 +344,14 @@ def plot_sequences(testY, testPredict, n, test_ids=None, seq_length=None, num_se
         os.makedirs(f"images/{n}/", exist_ok=True) 
         plt.savefig(f"images/{n}/sequence_{i}.png")
         plt.tight_layout()
-        plt.show()
+        #plt.show()
 
 # %%
 # main
 
 def main(n, model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, validation_split=0.1):
+
+
     trainX, trainY, _, _, train_ids, _= preprocessing('datasets/outputs/cleaned_gpx.csv',seq_length=10)
     _, _, testX, testY, _, test_ids = preprocessing('datasets/test/cleaned_csv_test.csv',seq_length=10, ratio_train=0)
     if model == 1:
@@ -360,11 +362,14 @@ def main(n, model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, val
         model, history = encoder_decoder_bidirectional_model(trainX, trainY, lstm_layers, lstm_cells, epochs, batch_size, validation_split)
     plotting_courbe_apprentissage(history, n)
     testPredict = prediction(model, testX, testY)
-    trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
-    with open('chosen.csv', 'w', newline='') as csvfile:
-        writer = csv.writer(csvfile)
-        csv_as_list = list(writer)
-        #writer.writerow([choice])
-    plotting(testY,testPredict, n, max_points=100)
 
+    trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
+    
+    df = pd.read_csv('configuration.csv')
+    df.loc[n-1, "MSE"] = trainScore
+    df.loc[n-1, "RMSE"] = testScore
+
+    df.to_csv('configuration.csv', index=False)
+
+    plotting(testY,testPredict, n, max_points=100)
     plot_sequences(testY, testPredict, n, test_ids=test_ids)

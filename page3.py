@@ -26,6 +26,14 @@ class Page3:
                 "visualization_data": "VISUALISATION DES DONNEES",
                 "simulate": "Simuler",
                 "back": "Retour",
+                "show graph": "Afficher le graphe",
+                "download csv": "Télécharger CSV",
+                "show graph + csv": "Afficher le graphe + CSV",
+                "graph types": "Types de graphe:",
+                "trajectory graph": "graphe par trajectoire",
+                "all points graph": "graphe avec tous les points",
+                "result": "Resultat",
+                "RMSE and train loss": "RMSE ET la COURBE D’apprentissage",
                 "menu": [
                     ("PRÉTRAITEMENT", self.open_page1, "edit.png"),
                     ("ENTRAÎNEMENT", self.open_page2, "params.png"),
@@ -37,6 +45,14 @@ class Page3:
                 "visualization_data": "VISUALIZATION DATA",
                 "simulate": "Simulate",
                 "back": "Back",
+                "show graph": "Show graph",
+                "download csv": "Download CSV",
+                "show graph + csv": "Show graph + CSV",
+                "graph types": "Graph types:",
+                "trajectory graph": "trajectory graph",
+                "all points graph": "all points graph",
+                "result": "Result",
+                "RMSE and train loss": "RMSE AND the LEARNING CURVE",
                 "menu": [
                     ("PREPROCESSING", self.open_page1, "edit.png"),
                     ("TRAINING", self.open_page2, "params.png"),
@@ -75,11 +91,11 @@ class Page3:
         main_frame.pack(fill="both", expand=True, padx=20, pady=20)
         
         # Titre
-        title_label = ctk.CTkLabel(main_frame, text="Resultat", font=("Arial", 28, "bold"), text_color="black")
+        title_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["result"], font=("Arial", 28, "bold"), text_color="black")
         title_label.pack(padx=20, pady=(20, 10), anchor="center")
         
         # Sous-titre
-        subtitle_label = ctk.CTkLabel(main_frame, text="RMSE ET les COURBE D’apprentissage", font=("Arial", 18, "italic"), text_color="black")
+        subtitle_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["RMSE and train loss"], font=("Arial", 18, "italic"), text_color="black")
         subtitle_label.pack(anchor="center")
         
         # FRAME DES GRAPHIQUES
@@ -92,25 +108,39 @@ class Page3:
         label_logo = ctk.CTkLabel(self.graph_frame, image=image, text="")
         label_logo.pack(pady=(1, 2))
 
+        with open("configuration.csv", "r", newline="") as file:
+                #reader = csv.reader(file)
+                rows = list(csv.reader(file))
+                #nb_rows = sum(1 for line in file)
+                MSE = rows[1][6]
+                RMSE = rows[1][7]
+                #print(MSE, RMSE)
+
+        mse_label = types_label = ctk.CTkLabel(main_frame, text=f"Train MSE : {MSE}", font=("Arial", 16, "bold"), text_color="black")
+        mse_label.pack(anchor="c", padx=20)
+        rmse_label = types_label = ctk.CTkLabel(main_frame, text=f"Predict. RMSE : {RMSE}", font=("Arial", 16, "bold"), text_color="black")
+        rmse_label.pack(anchor="c", padx=20)
+        
+
         # Types de graphes
-        types_label = ctk.CTkLabel(main_frame, text="Types de graphes :", font=("Arial", 16, "bold"), text_color="black")
+        types_label = ctk.CTkLabel(main_frame, text=self.translations[self.language]["graph types"], font=("Arial", 16, "bold"), text_color="black")
         types_label.pack(anchor="w", padx=20)
         
-        graph_options = ["graphe par trajectoire", "graphe avec tous les points"]
-        self.graph_listbox = ctk.CTkComboBox(main_frame, values=graph_options)
+        graph_options = [self.translations[self.language]["trajectory graph"], self.translations[self.language]["all points graph"]]
+        self.graph_listbox = ctk.CTkComboBox(main_frame, values=graph_options, width=250)
         self.graph_listbox.pack(padx=20, anchor="w")
         
         # BOUTONS
         button_frame = ctk.CTkFrame(main_frame, fg_color="white")
         button_frame.pack(pady=20)
         
-        bouton_afficher = ctk.CTkButton(button_frame, text="afficher le graphe", width=200, fg_color="#1C3A6B", command=self.afficher_graphe)
+        bouton_afficher = ctk.CTkButton(button_frame, text=self.translations[self.language]["show graph"], width=200, fg_color="#1C3A6B", command=self.afficher_graphe)
         bouton_afficher.pack(side="left", padx=10)
         
-        bouton_csv = ctk.CTkButton(button_frame, text="telecharger csv", width=200, fg_color="#1C3A6B", command=self.telecharger_csv)
+        bouton_csv = ctk.CTkButton(button_frame, text=self.translations[self.language]["download csv"], width=200, fg_color="#1C3A6B", command=self.telecharger_csv)
         bouton_csv.pack(side="left", padx=10)
         
-        bouton_afficher_csv = ctk.CTkButton(button_frame, text="afficher le graphe + csv", width=200, fg_color="#1C3A6B", command=self.afficher_graphe_csv)
+        bouton_afficher_csv = ctk.CTkButton(button_frame, text=self.translations[self.language]["show graph + csv"], width=200, fg_color="#1C3A6B", command=self.afficher_graphe_csv)
         bouton_afficher_csv.pack(side="left", padx=10)
         
         # Bouton retour
