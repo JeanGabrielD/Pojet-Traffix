@@ -337,7 +337,39 @@ class Page1:
         from page2 import Page2
         if not isinstance(self, Page2):
             global selected_algorithm, name_file
-            name_file = os.path.basename(self.drop_label.cget("text"))
+            # Vérifier si un fichier a été sélectionné
+            file_path = self.drop_label.cget("text")
+            file_ext = os.path.splitext(file_path)[1].lower()
+
+            if file_path == self.translations[self.language]["drop_file"] or not file_path:
+                messagebox.showerror(
+                    self.translations[self.language]["error_title"],
+                    "Veuillez sélectionner un fichier GPX ou CSV avant de continuer."
+                )
+                return
+            
+            if file_ext not in ('.gpx', '.csv'):
+                messagebox.showerror(
+                    self.translations[self.language]["error_title"],
+                    "Le fichier sélectionné doit être au format GPX ou CSV."
+                )
+                return
+
+            # Vérifier si au moins une case est cochée
+            selected_columns = [
+                cb.cget("text") for cb in self.checkbox_frame.winfo_children()
+                if isinstance(cb, ctk.CTkCheckBox) and cb.get()
+            ]
+
+            if not selected_columns:
+                messagebox.showerror(
+                    self.translations[self.language]["error_title"],
+                    "Veuillez sélectionner au moins une colonne avant de continuer."
+                )
+                return
+                      
+            # Enregistrer les choix
+            name_file = os.path.basename(file_path)
             selected_algorithm = self.algo_dropdown.get()
             global selected_files
             if selected_algorithm == "CSV":
@@ -348,6 +380,15 @@ class Page1:
                 gpx_chosen(selected_files)
             self.clear_window()
             Page2(self.root, language=self.language)
+            
+    def open_main_window(self):
+        from main_window import MainWindow
+        self.clear_window()
+        MainWindow(self.root)
+
+    def clear_window(self):
+        for widget in self.root.winfo_children():
+            widget.destroy() 
 
     def open_page3(self):
         from page3 import Page3
