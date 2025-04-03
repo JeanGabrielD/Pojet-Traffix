@@ -117,6 +117,7 @@ class Page4:
             with open('chosen.csv', 'r') as config:
                 read = csv.reader(config)
                 chosen_graph = list(read)[0][0]
+                print(chosen_graph)
                 if (chosen_graph == "graphe par trajectoire"):
                     for i in range(1, len(list(reader))):
                         image = ctk.CTkImage(light_image=Image.open(f"images/{i}/predict_plot.png"), size=(400, 200))

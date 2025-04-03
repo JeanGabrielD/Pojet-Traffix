@@ -361,9 +361,8 @@ def main(n, model=1, lstm_layers=1, lstm_cells=64, epochs=50, batch_size=64, val
     plotting_courbe_apprentissage(history, n)
     testPredict = prediction(model, testX, testY)
     trainScore, testScore = calculate_rmse(model, history, trainX, trainY, testY, testPredict)
-    with open('configuration.csv', 'w', newline='') as csvfile:
+    with open('chosen.csv', 'w', newline='') as csvfile:
         writer = csv.writer(csvfile)
-        
         csv_as_list = list(writer)
         #writer.writerow([choice])
     plotting(testY,testPredict, n, max_points=100)
