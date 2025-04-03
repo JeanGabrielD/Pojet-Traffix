@@ -100,6 +100,7 @@ class Page2:
 
         self.create_sidebar()
         self.create_widgets()
+        self.init_csv()
 
     
 
@@ -279,6 +280,7 @@ class Page2:
             global algo_chosen
             algo_chosen = self.algo_dropdown.get()
             print(algo_chosen)
+            self.add_line_csv()
             
             # Récupérer les valeurs des text boxes et des labels
             vals =[f"{labels[key].cget('text')} : {textboxes[key].get()}" for key in textboxes]
@@ -342,6 +344,7 @@ class Page2:
                 messagebox.showerror("Validation Error", f"Please fill in the following fields: {', '.join(missing_fields)}")
             else:
                 add_row()
+            
 
         # Fonction pour supprimer le tooltip lorsque la souris quitte l'icône
         def hide_tooltip(event):
@@ -485,13 +488,17 @@ class Page2:
         with open("configuration.csv", mode='w', newline='', encoding='utf-8') as file:
             writer = csv.writer(file)
             # Ajoute un en-tête des pour les colonnes en fonction du modèle
-            if self.algo_dropdown == "Encoder decoder model":
-                writer.writerow(["Modele choisi", "Encoder cells", "Decoder cells", "Epochs", "Batch size", "Validation split"])
-            else:
-                writer.writerow(["Modele choisi", "Layers", "Cells", "Epochs", "Batch size", "Validation split"])
+            writer.writerow(["Modele choisi", "Layers", "Cells", "Epochs", "Batch size", "Validation split"])
+            # Écrit les données 
+        print("Fichier CSV créé sous configuration.csv")
+    
+    def add_line_csv(self):
+        global chosen
+        with open("configuration.csv", mode='a', newline='', encoding='utf-8') as file:
+            writer = csv.writer(file)
             # Écrit les données 
             writer.writerow((self.algo_dropdown.get(), chosen[0], chosen[1], chosen[2], chosen[3], chosen[4]))
-        print("Fichier CSV sauvegardé sous configuration.csv")
+        print("Fichier CSV modifié sous configuration.csv")
 
     def open_main_window(self):
         from main_window import MainWindow
