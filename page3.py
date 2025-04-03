@@ -168,7 +168,7 @@ class Page3:
     def afficher_graphe_csv(self):
         choice = self.graph_listbox.get()
         with open('chosen.csv', 'w', newline='') as csvfile:
-            writer = csv.writer
+            writer = csv.writer(csvfile)
             writer.writerow([choice])
         # Ouvre le gestionnaire de fichier pour choisir où sauvegarder le fichier CSV
         file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")])
@@ -183,6 +183,7 @@ class Page3:
                     for row in reader:
                         writer.writerow(row)
                 print(f"Fichier CSV sauvegardé sous {file_path}")
+        self.open_page4()
     
     def retour(self):
         print("Retour à la page précédente")

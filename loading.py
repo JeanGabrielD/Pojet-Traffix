@@ -14,7 +14,6 @@ import numpy as np
 import itertools
 from models import main
 
-
 class Loading:
     def __init__(self, root, language):
         global selected_algorithm
@@ -51,8 +50,7 @@ class Loading:
                 ]
             }
         }
-        t = Thread(target=self.train_configurations())
-        t.run
+        
         self.create_sidebar()
         self.root = root
         self.root.title("Loading Page")
@@ -114,8 +112,13 @@ class Loading:
         button_back.pack(pady=10)
 
     def animate(self):
+        t = Thread(target=self.train_configurations())
+        t.run()
         self.canvas.itemconfig(self.arc, start=next(self.angle))
-        self.root.after(50, self.animate)
+        if t.is_alive():
+            self.root.after(50, self.animate)
+        else:
+            self.open_page3()
 
     def create_plot(self):
         fig, ax = plt.subplots(figsize=(8, 5))
