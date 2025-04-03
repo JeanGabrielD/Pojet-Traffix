@@ -144,12 +144,14 @@ class Page3:
         
     
     def afficher_graphe(self):
+        self.open_page4()
         print("Afficher le graphe")
     
     def telecharger_csv(self):
         print("Télécharger le fichier CSV")
     
     def afficher_graphe_csv(self):
+        self.open_page4()
         print("Afficher le graphe et télécharger le CSV")
         # Ouvre le gestionnaire de fichier pour choisir où sauvegarder le fichier CSV
         file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")])

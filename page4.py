@@ -114,6 +114,7 @@ class Page4:
         print("Afficher le graphe et télécharger le CSV")
     
     def retour(self):
+        self.open_page3()
         print("Retour à la page précédente")
         
     def ouvrir_fenetre_courbe(self):
