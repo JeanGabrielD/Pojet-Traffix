@@ -87,10 +87,20 @@ class Page4:
     def create_plot(self):
         with open('configuration.csv', 'r') as file:
             reader = csv.reader(file)
-            for i in range(1, len(list(reader))):
-                image = ctk.CTkImage(light_image=Image.open(f"images/{i}/courbe_apprentissage.png"), size=(400, 200))
-                label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
-                label_logo.pack(pady=(10, 20))
+            with open('chosen.csv', 'r') as config:
+                read = csv.reader(config)
+                chosen_graph = list(read)[0][0]
+                if (chosen_graph == "graphe par trajectoire"):
+                    for i in range(1, len(list(reader))):
+                        image = ctk.CTkImage(light_image=Image.open(f"images/{i}/predict_plot.png"), size=(400, 200))
+                        label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
+                        label_logo.pack(pady=(10, 20))
+                elif (chosen_graph == "graphe avec tous les points"):
+                    for i in range(1, len(list(reader))):
+                        for n in range (5):
+                            image = ctk.CTkImage(light_image=Image.open(f"images/{i}/sequence_{n}.png"), size=(400, 200))
+                            label_logo = ctk.CTkLabel(self.graph_frame, image=image, text=f"modele {i}")
+                            label_logo.pack(pady=(10, 20))
         
         '''
         fig, ax = plt.subplots(figsize=(8, 5))

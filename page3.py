@@ -97,8 +97,8 @@ class Page3:
         types_label.pack(anchor="w", padx=20)
         
         graph_options = ["graphe par trajectoire", "graphe avec tous les points"]
-        graph_listbox = ctk.CTkComboBox(main_frame, values=graph_options)
-        graph_listbox.pack(padx=20, anchor="w")
+        self.graph_listbox = ctk.CTkComboBox(main_frame, values=graph_options)
+        self.graph_listbox.pack(padx=20, anchor="w")
         
         # BOUTONS
         button_frame = ctk.CTkFrame(main_frame, fg_color="white")
@@ -143,6 +143,10 @@ class Page3:
         self.canvas.get_tk_widget().pack()
         '''
     def afficher_graphe(self):
+        choice = self.graph_listbox.get()
+        with open('chosen.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerow([choice])
         file_path = "configuration.csv"
         if os.path.exists(file_path): 
             with open(file_path, "r", newline="") as file:
@@ -162,6 +166,10 @@ class Page3:
         print("Télécharger le fichier CSV")
     
     def afficher_graphe_csv(self):
+        choice = self.graph_listbox.get()
+        with open('chosen.csv', 'w', newline='') as csvfile:
+            writer = csv.writer
+            writer.writerow([choice])
         # Ouvre le gestionnaire de fichier pour choisir où sauvegarder le fichier CSV
         file_path = filedialog.asksaveasfilename(defaultextension=".csv", filetypes=[("Fichiers CSV", "*.csv")])
         
